@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
+import com.generation.blogpessoal.repository.TemaRepository;
 
 import jakarta.validation.Valid;
 
@@ -30,6 +31,9 @@ public class PostagemController {
 
 	@Autowired
 	private PostagemRepository postagemRepository;
+	
+	@Autowired
+	private TemaRepository temaRepository;
 	
 	@GetMapping
 	public ResponseEntity<List<Postagem>> getAll() {
@@ -52,7 +56,12 @@ public class PostagemController {
 	/* @Valid: marca um objeto para que suas propriedades sejam checados se são válidos ou não
 	   @RequestBody: marca que a informação deve ser obtida através do corpo da requisição */
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
+		
+		if(temaRepository.existsById(postagem.getTema().getId())) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
+		}
+		
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Tema não existe!", null); // null é para não ser retornado um erro enorme
 	}
 	
 	@PutMapping
@@ -62,8 +71,13 @@ public class PostagemController {
 		if(postagem.getId() == null)
 			return ResponseEntity.badRequest().build();
 		
-		if(postagemRepository.existsById(postagem.getId())) // verifica se o ID é válido ou não
-			return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
+		if(postagemRepository.existsById(postagem.getId())) { // verifica se o ID é válido ou não
+			
+			if(temaRepository.existsById(postagem.getTema().getId())) 
+				return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
+			
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Tema não existe!", null);
+		}
 		
 		// se o ID não for encontrado, retorna not found
 		return ResponseEntity.notFound().build();
