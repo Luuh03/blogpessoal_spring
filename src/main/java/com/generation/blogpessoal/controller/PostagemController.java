@@ -57,7 +57,7 @@ public class PostagemController {
 	   @RequestBody: marca que a informação deve ser obtida através do corpo da requisição */
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem) {
 		
-		if(temaRepository.existsById(postagem.getTema().getId())) {
+		if(temaRepository.existsById(postagem.getTema().getId())) { // Verifica se o tema informado existe
 			return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 		}
 		
