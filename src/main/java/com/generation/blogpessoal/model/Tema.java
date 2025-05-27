@@ -28,10 +28,10 @@ public class Tema {
 	@Column(length = 100)
 	@NotBlank(message = "O atributo 'descrição' é obrigatório!")
 	@Size(min = 5, max = 100, message = "O atributo 'descrição' deve ter no mínimo 5 e no máximo 100 caracteres!")
-	//@Pattern(regexp = "^[^0-9].*", message = "O atributo 'descrição' não pode ser composto somente por números!")
+	@Pattern(regexp = "^[^0-9].*", message = "O atributo 'descrição' não pode ser composto somente por números!")
 	private String descricao;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tema", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tema", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("tema")
 	private List<Postagem> postagem;
 
