@@ -15,7 +15,7 @@
 <img src="https://img.shields.io/github/last-commit/Luuh03/blogpessoal_spring?style=flat-square" />
 <img src="https://img.shields.io/github/issues/Luuh03/blogpessoal_spring?style=flat-square" />
 <img src="https://img.shields.io/github/issues-pr/Luuh03/blogpessoal_spring?style=flat-square" />
-<img src="https://img.shields.io/badge/status-construção-yellow" alt="Status: Em Construção">
+<img src="https://img.shields.io/badge/status-concluído-green" alt="Status:Concluído">
  
 </div>
  
